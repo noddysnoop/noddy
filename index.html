@@ -278,8 +278,8 @@
         <div class="form-group">
             <label for="studentTier">Class / Year / Grade Track</label>
             <select id="studentTier">
-                <option value="School Student (Junior/Senior)">School Level Student</option>
-                <option value="College Undergraduate (Year 1-4)">College / University Undergraduate</option>
+                <option value="School Student">School Level Student</option>
+                <option value="College Undergraduate">College / University Undergraduate</option>
                 <option value="Alternative Learning Track">Alternative Learner / Researcher</option>
             </select>
         </div>
@@ -313,6 +313,7 @@
         <button class="btn" onclick="submitDifficulty()">Next Page &rarr;</button>
     </div>
 
-    <!-- SCREEN 4: STEP-BY-STEP QUIZ VIEW (ONE QUESTION DISPLAY SYSTEM) -->
+    <!-- SCREEN 4: STEP-BY-STEP QUIZ VIEW -->
     <div class="screen" id="screen-quiz">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <span id="quizProgressTracker" style="font-size: 0.85rem; font-weight: bold; color: var(--accent-blue);">Question 1 of 10</span>
