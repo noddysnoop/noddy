@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Know Your Knowledges</title>
+    <style>
+        :root {
+            --bg-light: #f0f7ff;
+            --panel-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --accent-blue: #3b82f6;
+            --accent-light-blue: #dbeafe;
+            --accent-emerald: #10b981;
+            --accent-rose: #f43f5e;
+            --border-color: #e2e8f0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .app-window {
+            background-color: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            width: 100%;
+            max-width: 600px;
+            padding: 40px;
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.1);
+            position: relative;
+        }
+
+        /* Screen Presentation Engine */
+        .screen {
+            display: none;
+        }
+        .screen.active {
+            display: block;
+            animation: paneFade 0.4s ease-out;
+        }
+
+        @keyframes paneFade {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Brand Headers */
+        .brand-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--accent-blue);
+            text-align: center;
+            margin-bottom: 5px;
+            text-transform: capitalize;
+        }
+
+        p.subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--text-main);
+            border-left: 4px solid var(--accent-blue);
+            padding-left: 12px;
+        }
+
+        /* Form Layout Elements */
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        input[type="text"], select {
+            width: 100%;
+            padding: 14px 16px;
+            background-color: #ffffff;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-main);
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input[type="text"]:focus, select:focus {
+            border-color: var(--accent-blue);
+        }
+
+        /* Action Buttons */
+        .btn {
+            width: 100%;
+            background-color: var(--accent-blue);
+            color: #ffffff;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1.05rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .btn:hover {
+            background-color: #2563eb;
+            transform: translateY(-1px);
+        }
+
+        /* Grid Frameworks */
+        .selection-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .selectable-card {
+            background-color: #ffffff;
+            border: 2px solid var(--border-color);
+            padding: 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .selectable-card:hover {
+            border-color: #cbd5e1;
+            background-color: #f8fafc;
+        }
+
+        .selectable-card.selected {
+            border-color: var(--accent-blue);
+            background-color: var(--accent-light-blue);
+            color: #1e40af;
+        }
+
+        /* Progress Bar elements */
+        .progress-container {
+            width: 100%;
+            background-color: var(--border-color);
+            height: 6px;
+            border-radius: 3px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: var(--accent-blue);
+            width: 10%;
+            transition: width 0.3s ease;
+        }
+
+        /* Multiple Choice Custom Rows */
+        .quiz-option {
+            background-color: #ffffff;
+            border: 2px solid var(--border-color);
+            padding: 14px 20px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.15s;
+            display: flex;
+            align-items: center;
+        }
+
+        .quiz-option:hover {
+            border-color: var(--text-muted);
+            background-color: #f8fafc;
+        }
+
+        .quiz-option.chosen {
+            border-color: var(--accent-blue);
+            background-color: var(--accent-light-blue);
+        }
+
+        .option-letter {
+            color: var(--accent-blue);
+            font-weight: bold;
+            margin-right: 12px;
+            background: rgba(59, 130, 246, 0.1);
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 0.9rem;
+        }
+
+        /* Metrics & Outputs Score displays */
+        .score-badge {
+            font-size: 3.8rem;
+            font-weight: 800;
+            color: var(--accent-blue);
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .feedback-box {
+            background-color: #f8fafc;
+            border-left: 4px solid var(--accent-blue);
+            padding: 18px;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 30px;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        /* Credit Footnotes styling */
+        .credit-footer {
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 25px;
+            border-top: 1px dashed var(--border-color);
+            padding-top: 15px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        
+        .credit-footer span {
+            color: var(--accent-rose);
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-window">
+    <div class="brand-title">Know Your Knowledges</div>
+    <p class="subtitle">Interactive Academic Benchmarking Matrix</p>
+
+    <!-- SCREEN 1: IDENTITY ONBOARDING PATH -->
+    
+        <h2>Student Profile Setup</h2>
+        
+        <div class="form-group">
+            <label for="studentName">Full Student Identity Name</label>
+            <input type="text" id="studentName" placeholder="Type your name here..." autocomplete="off">
+        </div>
+
+        <div class="form-group">
+            <label for="studentTier">Class / Year / Grade Track</label>
+            <select id="studentTier">
+                <option value="School Student (Junior/Senior)">School Level Student</option>
+                <option value="College Undergraduate (Year 1-4)">College / University Undergraduate</option>
+                <option value="Alternative Learning Track">Alternative Learner / Researcher</option>
+            </select>
+        </div>
+
+        Next Page &rarr;</button>
+    </div>
+
+    <!-- SCREEN 2: CORE COMPETENCY SUBJECT MATRIX -->
+    <div class="screen" id="screen-subject">
+        <h2>Choose Your Best Subject</h2>
+        
+        <div class="selection-grid" id="subjectGrid">
+            <div class="selectable-card" onclick="selectSubject(this, 'Computer Science')">Computational Science & Logic <span>💻</span></div>
+            <div class="selectable-card" onclick="selectSubject(this, 'Mathematics')">Analytical Mathematics & Calculus <span>📐</span></div>
+            <div class="selectable-card" onclick="selectSubject(this, 'General Science')">Physical & Applied Sciences <span>🔬</span></div>
+        </div>
+
+        <button class="btn" onclick="submitSubject()">Next Page &rarr;</button>
+    </div>
+
+    <!-- SCREEN 3: DIFFICULTY THRESHOLD PICKER -->
+    <div class="screen" id="screen-difficulty">
+        <h2>Configure Difficulty</h2>
+        
+        <div class="selection-grid" id="difficultyGrid">
+            <div class="selectable-card" onclick="selectDifficulty(this, 'Basic')">🌱 Basic Foundation</div>
+            <div class="selectable-card" onclick="selectDifficulty(this, 'Normal')">⚡ Normal Core</div>
+            <div class="selectable-card" onclick="selectDifficulty(this, 'Hard')">🔥 Hard Architecture</div>
+        </div>
+
+        <button class="btn" onclick="submitDifficulty()">Next Page &rarr;</button>
+    </div>
+
+    <!-- SCREEN 4: STEP-BY-STEP QUIZ VIEW (ONE QUESTION DISPLAY SYSTEM) -->
+    <div class="screen" id="screen-quiz">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
